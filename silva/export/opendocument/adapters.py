@@ -12,8 +12,8 @@ from Products.Silva.adapters import adapter, interfaces
 from Products.Silva import interfaces as silva_interfaces
 from Products.Silva import SilvaPermissions
 
-from pkg_resources import resource_stream, Requirement
-from lxml.etree import ElementTree, XML
+from pkg_resources import resource_filename, Requirement
+from lxml.etree import ElementTree, XML, XSLT, tostring
 
 class OpenDocumentExportAdapter(adapter.Adapter):
     """Adapter to export Silva Object to OpenDocument
@@ -29,7 +29,8 @@ class OpenDocumentExportAdapter(adapter.Adapter):
 
     def _getXSLT(self):
         req = Requirement.parse('silva.export.opendocument')
-        stream = resource_stream(req, 'silva2odt.xslt')
+        tp = 'silva/export/opendocument/templates/silva2odt.xslt'
+        stream = open(resource_filename(req, tp), 'r')
         return ElementTree(XML(stream.read()))
 
     security.declareProtected(
@@ -48,10 +49,12 @@ class OpenDocumentExportAdapter(adapter.Adapter):
         
         # now transform the XML
         xml_export = ElementTree(XML(xml_export))
-        style_doc = self._getXSLT()
+        style_doc = XSLT(self._getXSLT())
+
+        content = style_doc.apply(xml_export)
 
         # TODO
-        return as_xml
+        return tostring(content)
 
 
 Globals.InitializeClass(OpenDocumentExportAdapter)

@@ -30,12 +30,159 @@
   xmlns:doc="http://infrae.com/ns/silva_document" 
   xmlns:silva-content="http://infrae.com/namespaces/metadata/silva"
   xmlns:silva-extra="http://infrae.com/namespaces/metadata/silva-extra"
-
-  xmlns="http://www.oce.nl/ns/ocesilvaextension"
-  xmlns:oce="http://www.oce.nl/ns/ocesilvaextension"
-  xmlns:oce-metadata="http://www.oce.nl/ns/ocesilvaextension/metadata"
   
-  version="1.0"
-  >
+  version="1.0">
+
+  <!-- Base document -->
+  <xsl:template match="/">
+    <office:document-content office:version="1.0">
+      <office:body>
+        <office:text>
+          <xsl:apply-templates />
+        </office:text>
+      </office:body>
+    </office:document-content>
+  </xsl:template>
+
+  <!-- Remove workflow information -->
+  <xsl:template match="silva:workflow" />
+
+  <!-- Remove metadata TODO restore them (office:meta) -->
+  <xsl:template match="silva:metadata" />
+
+  <!-- Text style -->
+  <xsl:template match="doc:heading[@type='normal']">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:h text:style-name="Heading_20_4" 
+                text:outline-level="4">
+          <xsl:apply-templates />
+        </text:h>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
+  <xsl:template match="doc:heading[@type='sub']">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:h text:style-name="Heading_20_5" 
+                text:outline-level="5">
+          <xsl:apply-templates />
+        </text:h>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="doc:heading[@type='subsub']">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:h text:style-name="Heading_20_6" 
+                text:outline-level="6">
+          <xsl:apply-templates />
+        </text:h>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="doc:heading[@type='paragraph']">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:h text:style-name="Heading_20_7" 
+                text:outline-level="7">
+          <xsl:apply-templates />
+        </text:h>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="doc:heading[@type='subparagraph']">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:h text:style-name="Heading_20_8" 
+                text:outline-level="8">
+          <xsl:apply-templates />
+        </text:h>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>  
+
+  <xsl:template match="doc:p">
+    <text:p text:style-name="Text_20_body">
+      <xsl:apply-templates mode="text-content"/>
+    </text:p>
+  </xsl:template>
+  
+  <xsl:template match="doc:strong" mode="text-content">
+    <text:span text:style-name="Strong_20_Emphasis">
+      <xsl:apply-templates mode="text-content" />
+    </text:span>
+  </xsl:template>
+  
+  <xsl:template match="doc:em" mode="text-content">
+    <text:span text:style-name="Emphasis">
+      <xsl:apply-templates mode="text-content" />
+    </text:span>
+  </xsl:template>
+  
+  <xsl:template match="doc:underline" mode="text-content">
+    <text:span text:style-name="Underlined">
+      <xsl:apply-templates mode="text-content" />
+    </text:span>
+  </xsl:template>
+  
+  <xsl:template match="doc:index" mode="text-content">
+    <text:bookmark text:name="{@name}"/>
+  </xsl:template>
+  
+  <xsl:template match="doc:br" mode="text-content">
+    <text:line-break/>
+  </xsl:template>
+  
+  <xsl:template match="doc:list">
+    <text:list text:style-name="{@type}">
+      <xsl:apply-templates mode="list" />
+    </text:list>
+  </xsl:template>
+
+  <xsl:template match="doc:nlist">
+    <text:list text:style-name="{@type}">
+      <xsl:apply-templates mode="nlist" />
+    </text:list>
+  </xsl:template>
+
+  <xsl:template match="doc:li" mode="list">
+    <text:list-item>
+      <xsl:choose>
+        <xsl:when test="count(*) &lt; 2">
+          <text:p text:style-name="P1">
+            <xsl:apply-templates mode="text-content" />
+          </text:p>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="text-content" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </text:list-item>
+  </xsl:template>
+  
+  <xsl:template match="doc:li" mode="nlist">
+    <text:list-item>
+      <xsl:choose>
+        <xsl:when test="count(*) &lt; 2">
+          <text:p text:style-name="P2">
+            <xsl:apply-templates mode="text-content" />
+          </text:p>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="text-content" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </text:list-item>
+  </xsl:template>
 
 </xsl:stylesheet>
