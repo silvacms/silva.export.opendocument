@@ -35,7 +35,9 @@
 
   <!-- Base document -->
   <xsl:template match="/">
-    <office:document-content office:version="1.0">
+    <office:document-content 
+       office:version="1.0"
+       office:mimetype="application/vnd.oasis.opendocument.text">
       <office:body>
         <office:text>
           <xsl:apply-templates />
