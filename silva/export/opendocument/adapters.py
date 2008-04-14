@@ -34,18 +34,28 @@ class ODFDocument(object):
 
     def __init__(self, template_name):
        template = open(fileResource(template_name), 'r')
-       self.doc = StringIO()
-       self.doc.write(template.read())
-       self.doc.seek(0)
+       self._doc = StringIO()
+       self._doc.write(template.read())
+       self._doc.seek(0)
+       self._manifest = []
 
-    def add(self, name, content):
-        archive = ZipFile(self.doc, 'a')
+    def _add(self, name, content):
+        archive = ZipFile(self._doc, 'a')
         archive.writestr(name, content)
         archive.close()
-        self.doc.seek(0)
+        self._doc.seek(0)
+
+    def add(self, name, content, content_type='text/xml'):
+        self._add(name, content)
+        self._manifest.append((name, content_type,),)
 
     def download(self):
-        return self.doc.getvalue()
+        new_to_manifest = ""
+        for name, content_type in self._manifest:
+            new_to_manifest += '<manifest:file-entry manifest:media-type="%s" manifest:full-path="%s"/>\n  ' % (content_type, name)
+        template_manifest = open(fileResource('manifest.xml'), 'r').read()
+        self._add('META-INF/manifest.xml', template_manifest % new_to_manifest)
+        return self._doc.getvalue()
 
 class OpenDocumentExportAdapter(adapter.Adapter):
     """Adapter to export Silva Object to OpenDocument
@@ -76,13 +86,25 @@ class OpenDocumentExportAdapter(adapter.Adapter):
         info = xmlexport.ExportInfo()
         export_root = xmlexport.SilvaExportRoot(self.context)
         xml_export = exporter.exportToString(export_root, settings, info)
+
+        document = ODFDocument('odt_template.zip')
+        document.add('silva.xml', xml_export)
         
+        for path, id in info.getAssetPaths():
+            asset = self.context.restrictedTraverse(path)
+            if not silva_interfaces.IImage.providedBy(asset):
+                continue
+            adapter = interfaces.IAssetData(asset)
+            if adapter is not None:
+                document.add('Pictures/%s' % asset.id,
+                             adapter.getData(),
+                             content_type=asset.content_type())
+
         # now transform the XML
         xml_export = ElementTree(XML(xml_export))
         style_content = XSLT(self._getXSLT())
 
         content = style_content.apply(xml_export)
-        document = ODFDocument('odt_template.zip')
         document.add('content.xml', tostring(content))
         return document.download()
 
