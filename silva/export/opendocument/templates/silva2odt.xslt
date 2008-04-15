@@ -265,6 +265,34 @@
                                          text:min-label-width="0.635cm"/>
           </text:list-level-style-number>
         </text:list-style>
+
+        <!-- Style for tables -->
+
+
+        <xsl:for-each select="//doc:table">
+          <style:style style:name="{concat('table_', generate-id())}"
+                       style:family="table">
+            <style:table-properties style:width="17.5cm" />
+          </style:style>
+        </xsl:for-each>
+        <xsl:for-each select="//doc:col">
+          <style:style style:name="{concat('col_', generate-id())}"
+                       style:family="table-column">
+            <style:table-column-properties> 
+              <xsl:variable name="width"
+                            select="number(substring-before(@width, '%'))" />
+               <xsl:attribute name="column-width"
+                              namespace="urn:oasis:names:tc:opendocument:xmlns:style:1.0">
+                 <xsl:value-of select="concat(string(0.175 * $width), 'cm')" />
+               </xsl:attribute>
+               <xsl:attribute name="rel-column-width"
+                              namespace="urn:oasis:names:tc:opendocument:xmlns:style:1.0">
+                 <xsl:value-of select="concat($width, '*')" />
+               </xsl:attribute>
+            </style:table-column-properties>
+          </style:style>
+        </xsl:for-each>
+
       </office:automatic-styles>
       <office:body>
         <office:text>
@@ -278,22 +306,33 @@
   <xsl:template match="silva:workflow" />
 
   <!-- Metadata -->
-  <xsl:template match="silva:set[@id='silva-content']/silva-content:maintitle">
-    <text:h text:style-name="Heading">
-      <xsl:apply-templates />
+  <!-- We keep only document titles -->
+  <xsl:template match="silva:document//silva-content:maintitle">
+    <text:h text:style-name="Heading"
+            text:outline-level="1">
+      <xsl:value-of select="." />
     </text:h>
   </xsl:template>
-  <xsl:template match="silva:set[@id='silva-extra']" />
+  <xsl:template match="silva:metadata/silva:set/*" />
 
-  <!-- We don't want them -->
+  <!-- We don't want theses content types -->
   <xsl:template match="silva:image_asset" />
+  <xsl:template match="silva:auto_toc" />
+  <xsl:template match="silva:unknown_content" />
 
-  <!-- TOC -->
-  <xsl:template match="silva:auto_toc">
-    <text:table-of-content>
-    </text:table-of-content>
-  </xsl:template>
+
   
+  <xsl:template match="silva:publication">
+    <text:h text:style-name="Heading">
+      <xsl:value-of select="silva:metadata/silva:set[@id='silva-content']/silva-content:maintitle" />
+    </text:h>
+    <text:table-of-content>
+      <text:table-of-content-source text:outline-level="2"
+                                    text:index-scope="document" />
+    </text:table-of-content>
+    <xsl:apply-templates />
+  </xsl:template>
+
   <!-- Text style -->
   <xsl:template match="doc:heading[@type='normal']">
     <xsl:choose>
@@ -356,10 +395,17 @@
   </xsl:template>  
 
   <xsl:template match="doc:p">
-    <text:p text:style-name="T3">
-      <xsl:apply-templates />
-    </text:p>
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:p text:style-name="T3">
+          <xsl:apply-templates />
+        </text:p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
+
+  <xsl:template match="doc:p[@type='annotation']" />
   
   <xsl:template match="doc:br">
     <text:line-break/>
@@ -389,46 +435,23 @@
   </xsl:template>
   
   <!-- List -->
-  <xsl:template match="doc:list">
-    <text:list text:style-name="{@type}">
-      <xsl:apply-templates mode="list" />
+  <xsl:template match="doc:list | doc:nlist">
+    <text:list>
+      <xsl:for-each select="doc:li">
+        <text:list-item>
+          <xsl:choose>
+            <xsl:when test="text()[normalize-space(.)]">
+              <text:p text:style-name="T3">
+                <xsl:value-of select="." />
+              </text:p>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates />
+            </xsl:otherwise>
+          </xsl:choose>
+        </text:list-item>
+      </xsl:for-each>
     </text:list>
-  </xsl:template>
-
-  <xsl:template match="doc:nlist">
-    <text:list text:style-name="{@type}">
-      <xsl:apply-templates mode="nlist" />
-    </text:list>
-  </xsl:template>
-
-  <xsl:template match="doc:li" mode="list">
-    <text:list-item>
-      <xsl:choose>
-        <xsl:when test="count(*) &lt; 2">
-          <text:p text:style-name="P1">
-            <xsl:apply-templates />
-          </text:p>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates />
-        </xsl:otherwise>
-      </xsl:choose>
-    </text:list-item>
-  </xsl:template>
-  
-  <xsl:template match="doc:li" mode="nlist">
-    <text:list-item>
-      <xsl:choose>
-        <xsl:when test="count(*) &lt; 2">
-          <text:p text:style-name="P2">
-            <xsl:apply-templates />
-          </text:p>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates />
-        </xsl:otherwise>
-      </xsl:choose>
-    </text:list-item>
   </xsl:template>
 
   <!-- Link -->
@@ -443,46 +466,54 @@
   <!-- Image -->
   <xsl:template match="doc:image">
     <text:p>
+      <xsl:variable name="width"
+                    select="number(@width) div 38.0" />
       <draw:frame draw:style-name="fr1"
-                  draw:name="graphics1"
-                  svg:width="{@width}px"
-                  svg:height="{@height}px"
-                  text:text-anchor-type="paragraph"
-                  draw:z-index="0">
-        <draw:image xlink:href="Pictures/{@link}"
-                    xlink:type="simple"
-                    xlink:show="embed"
-                    xlink:actuate="onLoad" />
+                  draw:name="{concat('cap_img_', generate-id())}"
+                  svg:width="{$width}cm"
+                  text:text-anchor-type="as-char"
+                  draw:z-indez="1">
+        <draw:text-box>
+          <text:p text:style-name="Illustration">
+            <draw:frame draw:style-name="fr1"
+                        draw:name="{concat('img_', generate-id())}"
+                        svg:height="{number(@height) div 38.0}cm"
+                        svg:width="{$width}cm"
+                        text:text-anchor-type="paragraph"
+                        draw:z-index="2">
+              <draw:image xlink:href="Pictures/{@path}"
+                          xlink:type="simple"
+                          xlink:show="embed"
+                          xlink:actuate="onLoad" />
+            </draw:frame>
+            <xsl:value-of select="following-sibling::doc:p[@type='annotation']" />
+          </text:p>
+        </draw:text-box>
       </draw:frame>
     </text:p>
   </xsl:template>
 
   <!-- Table -->
   <xsl:template match="doc:table">
-    <table:table table:name="table1">
+    <table:table table:name="{generate-id()}"
+                 table:style-name="{concat('table_', generate-id())}">
       <table:table-columns>
-          <xsl:apply-templates />
+        <xsl:for-each select="doc:col">
+          <table:table-column table:style-name="{concat('col_', generate-id())}" />
+        </xsl:for-each>
       </table:table-columns>
       <table:table-rows>
-          <xsl:apply-templates />
+        <xsl:for-each select="doc:row">
+          <table:table-row>
+            <xsl:for-each select="doc:field">
+              <table:table-cell>
+                <xsl:apply-templates />
+              </table:table-cell>
+            </xsl:for-each>
+          </table:table-row>
+        </xsl:for-each>
       </table:table-rows>
     </table:table>
   </xsl:template>
-
-  <xsl:template match="doc:col">
-    <table:table-column />
-  </xsl:template>
-
-  <xsl:template match="doc:row">
-    <table:table-row>
-      <xsl:apply-templates />
-    </table:table-row>
-  </xsl:template>
-
-  <xsl:template match="doc:field">
-    <table:table-cell>
-      <xsl:apply-templates />
-    </table:table-cell>
-  </xsl:template>
-
+  
 </xsl:stylesheet>
