@@ -62,11 +62,10 @@ class OpenDocumentExportAdapter(adapter.Adapter):
     """
     
     implements(interfaces.IContentExporter)
-    adapts(silva_interfaces.ISilvaObject)
     
     security = ClassSecurityInfo()
 
-    name = "Open Document"
+    name = "Open Document (odt)"
     extension = "odt"
 
 
