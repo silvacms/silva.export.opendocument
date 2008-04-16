@@ -90,7 +90,8 @@ class OpenDocumentExportAdapter(adapter.Adapter):
         xml_export = exporter.exportToString(export_root, settings, info)
 
         document = ODFDocument('odt_template.zip')
-        document.add('silva.xml', xml_export)
+        # Usefull for debug, include the silva export
+        #document.add('silva.xml', xml_export)
         
         for path, id in info.getAssetPaths():
             asset = self.context.restrictedTraverse(path)

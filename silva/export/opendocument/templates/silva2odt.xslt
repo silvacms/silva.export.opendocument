@@ -77,18 +77,6 @@
                      style:family="paragraph" 
                      style:parent-style-name="Standard" 
                      style:list-style-name="L1"/>
-        <style:style style:name="P4" 
-                     style:family="paragraph" 
-                     style:parent-style-name="Standard" 
-                     style:list-style-name="L2"/>
-        <style:style style:name="P5" 
-                     style:family="paragraph" 
-                     style:parent-style-name="Standard" 
-                     style:list-style-name="L2"/>
-        <style:style style:name="P6" 
-                     style:family="paragraph" 
-                     style:parent-style-name="Standard" 
-                     style:list-style-name="L2"/>
         <style:style style:name="T1" 
                      style:family="text">
           <style:text-properties fo:font-weight="bold" 
@@ -131,140 +119,46 @@
         </style:style>
         <text:list-style style:name="L1">
           <text:list-level-style-bullet text:level="1" 
-                                        text:style-name="Numbering_20_Symbols" 
+                                        text:style-name="Bullet_20_Symbols" 
                                         style:num-suffix="." 
-                                        text:bullet-char="">
+                                        text:bullet-char="•">
             <style:list-level-properties text:space-before="0.635cm" 
                                          text:min-label-width="0.635cm"/>
             <style:text-properties style:font-name="starbats"/>
           </text:list-level-style-bullet>
-          <text:list-level-style-number text:level="2" 
+          <text:list-level-style-bullet text:level="2" 
+                                        text:style-name="Bullet_20_Symbols" 
                                         style:num-suffix="." 
-                                        style:num-format="1">
+                                        text:bullet-char="•">
             <style:list-level-properties text:space-before="1.27cm" 
                                          text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="3" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="1.905cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="4" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="2.54cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="5" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="3.175cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="6" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="3.81cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="7" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="4.445cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="8" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="5.08cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="9" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="5.715cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="10" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="6.35cm" 
-                                         text:min-label-width="0.635cm"/>
-        </text:list-level-style-number>
-        </text:list-style>
-        <text:list-style style:name="L2">
-          <text:list-level-style-bullet text:level="1" 
-                                        text:style-name="Numbering_20_Symbols" 
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="0.635cm" 
-                                         text:min-label-width="0.635cm"/>
+            <style:text-properties style:font-name="starbats"/>
           </text:list-level-style-bullet>
-          <text:list-level-style-number text:level="2" 
-                                        text:style-name="Numbering_20_Symbols"
+          <text:list-level-style-bullet text:level="3" 
+                                        text:style-name="Bullet_20_Symbols" 
                                         style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="1.27cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="3"
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
+                                        text:bullet-char="•">
             <style:list-level-properties text:space-before="1.905cm" 
                                          text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="4" 
-                                        text:style-name="Numbering_20_Symbols"
+            <style:text-properties style:font-name="starbats"/>
+          </text:list-level-style-bullet>
+          <text:list-level-style-bullet text:level="4" 
+                                        text:style-name="Bullet_20_Symbols" 
                                         style:num-suffix="." 
-                                        style:num-format="1">
+                                        text:bullet-char="•">
             <style:list-level-properties text:space-before="2.54cm" 
                                          text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
+            <style:text-properties style:font-name="starbats"/>
+          </text:list-level-style-bullet>
+          <!-- Number for sample -->
           <text:list-level-style-number text:level="5" 
-                                        text:style-name="Numbering_20_Symbols"
                                         style:num-suffix="." 
                                         style:num-format="1">
             <style:list-level-properties text:space-before="3.175cm" 
                                          text:min-label-width="0.635cm"/>
           </text:list-level-style-number>
-          <text:list-level-style-number text:level="6" 
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="3.81cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="7" 
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="4.445cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="8" 
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="5.08cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="9" 
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="5.715cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
-          <text:list-level-style-number text:level="10" 
-                                        text:style-name="Numbering_20_Symbols"
-                                        style:num-suffix="." 
-                                        style:num-format="1">
-            <style:list-level-properties text:space-before="6.35cm" 
-                                         text:min-label-width="0.635cm"/>
-          </text:list-level-style-number>
         </text:list-style>
+
 
         <!-- Style for tables -->
 
@@ -398,7 +292,18 @@
     <xsl:choose>
       <xsl:when test="not(text()[normalize-space(.)] | *)" />
       <xsl:otherwise>
-        <text:p text:style-name="T3">
+        <text:p text:style-name="Standard">
+          <xsl:apply-templates />
+        </text:p>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="doc:pre">
+    <xsl:choose>
+      <xsl:when test="not(text()[normalize-space(.)] | *)" />
+      <xsl:otherwise>
+        <text:p text:style-name="Pre">
           <xsl:apply-templates />
         </text:p>
       </xsl:otherwise>
@@ -436,12 +341,12 @@
   
   <!-- List -->
   <xsl:template match="doc:list | doc:nlist">
-    <text:list>
+    <text:list text:style-name="L1">
       <xsl:for-each select="doc:li">
         <text:list-item>
           <xsl:choose>
             <xsl:when test="text()[normalize-space(.)]">
-              <text:p text:style-name="T3">
+              <text:p text:style-name="Standard">
                 <xsl:value-of select="." />
               </text:p>
             </xsl:when>
