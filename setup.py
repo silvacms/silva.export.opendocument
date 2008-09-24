@@ -9,7 +9,7 @@ version = '1.0'
 
 setup(name='silva.export.opendocument',
       version=version,
-      description="Export feature to Open Document",
+      description="Export Silva Document and Silva Publication to Open Document",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
