@@ -22,7 +22,7 @@ following section::
      silva.export.opendocument
 
   zcml +=
-     silva.export.openxdocument
+     silva.export.opendocument
 
 
 After you can re-run buildout::
