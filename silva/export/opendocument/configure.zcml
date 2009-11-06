@@ -2,16 +2,16 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five">
 
-  <adapter 
-     for="Products.Silva.interfaces.IPublication"
+  <adapter
+     for="silva.core.interfaces.IPublication"
      factory=".adapters.OpenDocumentExportAdapter"
-     provides="Products.Silva.adapters.interfaces.IContentExporter"
+     provides="silva.core.interfaces.adapters.IContentExporter"
      name="odt" />
 
-  <adapter 
+  <adapter
      for="Products.SilvaDocument.interfaces.IDocument"
      factory=".adapters.OpenDocumentExportAdapter"
-     provides="Products.Silva.adapters.interfaces.IContentExporter"
+     provides="silva.core.interfaces.adapters.IContentExporter"
      name="odt" />
 
 </configure>

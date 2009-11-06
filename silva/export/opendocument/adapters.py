@@ -11,9 +11,10 @@ import Globals
 from AccessControl import ModuleSecurityInfo, ClassSecurityInfo
 
 # Silva
-from Products.Silva.adapters import adapter, interfaces
-from Products.Silva import interfaces as silva_interfaces
 from Products.Silva import SilvaPermissions
+from Products.Silva.adapters import adapter
+from silva.core import interfaces as silva_interfaces
+from silva.core.interfaces import adapters as interfaces
 
 from pkg_resources import resource_filename, Requirement
 from lxml.etree import ElementTree, XML, XSLT, tostring
@@ -63,21 +64,20 @@ class ODFDocument(object):
 class OpenDocumentExportAdapter(adapter.Adapter):
     """Adapter to export Silva Object to OpenDocument
     """
-    
+
     implements(interfaces.IContentExporter)
-    
+
     security = ClassSecurityInfo()
 
     name = "Open Document (odt)"
     extension = "odt"
-
 
     def _getXSLT(self):
         stream = open(fileResource('silva2odt.xslt'), 'r')
         return ElementTree(XML(stream.read()))
 
     security.declareProtected(
-        SilvaPermissions.ChangeSilvaContent, 'export')    
+        SilvaPermissions.ChangeSilvaContent, 'export')
     def export(self, settings=None):
         from Products.Silva.silvaxml import xmlexport
 
@@ -92,7 +92,7 @@ class OpenDocumentExportAdapter(adapter.Adapter):
         document = ODFDocument('odt_template.zip')
         # Usefull for debug, include the silva export
         #document.add('silva.xml', xml_export)
-        
+
         for path, id in info.getAssetPaths():
             asset = self.context.restrictedTraverse(path)
             if not silva_interfaces.IImage.providedBy(asset):
