@@ -5,14 +5,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1'
+version = '1.1dev'
 
 setup(name='silva.export.opendocument',
       version=version,
       description="Export Silva Document and Silva Publication to Open Document",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Zope2",
         "Programming Language :: Python",
@@ -31,5 +30,8 @@ setup(name='silva.export.opendocument',
       install_requires=[
           'setuptools',
           'lxml',
-      ],
+          'silva.core.interfaces',
+          'zope.component',
+          'zope.interface',
+          ],
       )
