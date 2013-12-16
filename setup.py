@@ -9,7 +9,7 @@ version = '1.2dev'
 
 setup(name='silva.export.opendocument',
       version=version,
-      description="Export Silva Document and Silva Publication to Open Document",
+      description="Export Silva document and publication to Open Document in Silva 2.x",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
@@ -21,7 +21,7 @@ setup(name='silva.export.opendocument',
       keywords='silva opendocument export',
       author='Sylvain Viollon',
       author_email='info@infrae.com',
-      url='https://svn.infrae.com/silva.export.opendocument/trunk',
+      url='https://github.com/silvacms/silva.export.opendocument',
       license='BSD',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['silva', 'silva.export'],
